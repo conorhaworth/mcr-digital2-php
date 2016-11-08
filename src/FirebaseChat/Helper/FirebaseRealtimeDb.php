@@ -17,7 +17,7 @@ class FirebaseRealtimeDb
     /**
      * The firebase Lib instance
      *
-     * @var FirebaseLib
+     * @var FirebaseLib|FirebaseStub
      */
     protected $firebaseClient;
 
