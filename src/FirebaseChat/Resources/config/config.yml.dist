@@ -1,0 +1,7 @@
+# Default configuration for extension with alias: "firebase_chat"
+firebase_chat:
+    firebase_config:
+        app_url:              ~ # Example: https://exampleapp.firebaseio.com/
+        chat_db_path:         ~ # Example: /firebase/chat
+        auth_token:           ~ # Example: ZkjsavGSjkaKABSJkbasavvasjVAjhv
+

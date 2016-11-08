@@ -1,0 +1,4 @@
+services:
+    firebase_chat.fbrealtimedb:
+        class:      FirebaseChat\Helper\FirebaseRealtimeDb
+        arguments:  ['%firebase_chat.firebase_config.app_url%', '%firebase_chat.firebase_config.auth_token%', '%firebase_chat.firebase_config.chat_db_path%']
