@@ -73,3 +73,29 @@ firebase_chat:
         app_url:      "%firebase_app_url%" # Example: https://exampleapp.firebaseio.com/
         chat_db_path: "%firebase_chat_db_path%" # Example: /firebase/chat
         auth_token:   "%firebase_auth_token%" # Example: ZkjsavGSjkaKABSJkbasavvasjVAjhv
+
+# Nelmio CORS Configuration
+nelmio_cors:
+    defaults:
+        origin_regex: false
+        allow_credentials: false
+        allow_origin: ['*']
+        allow_headers: ['*']
+        expose_headers: []
+        allow_methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+        max_age: 0
+        hosts: []
+
+
+
+# FOSRest Configuration
+fos_rest:
+    body_listener: true
+    format_listener:
+        rules:
+            - { path: '^/', priorities: ['json'], fallback_format: json, prefer_extension: false }
+    param_fetcher_listener: true
+    view:
+        view_response_listener: 'force'
+        formats:
+            json: true

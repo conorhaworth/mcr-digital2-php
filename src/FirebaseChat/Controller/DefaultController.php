@@ -9,23 +9,40 @@
 namespace FirebaseChat\Controller;
 
 use FirebaseChat\Helper\FirebaseRealtimeDb;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\FOSRestController;
 
-class DefaultController extends Controller
+class DefaultController extends FOSRestController
 {
     /**
-     * @Route("/", name="homepage")
+     * @Rest\Get("/messages")
      */
-    public function indexAction(Request $request)
+    public function getMessages(Request $request)
     {
-        /** @var FirebaseRealtimeDb $firebaseService */
         $firebaseService = $this->get('firebase_chat.fbrealtimedb');
 
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
-        ]);
+        $messages = $firebaseService->getMessagesSinceLogin();
+        $view = $this->view($messages, Response::HTTP_OK);
+        if ($messages === null) {
+            return $this->view("cannot find message", Response::HTTP_NOT_FOUND);
+        }
+        return $view;
+    }
+
+    /**
+     * @Rest\Post("/messages/{username}/{content}")
+     */
+    public function postMessageAction(Request $request)
+    {
+        $firebaseService = $this->get('firebase_chat.fbrealtimedb');
+
+        $username = $request->get('username');
+        $content = $request->get('content');
+
+        $message = $firebaseService->writeMessage($username,$content);
+        $view = $this->view($message, Response::HTTP_INTERNAL_SERVER_ERROR);
+        return $view;
     }
 }

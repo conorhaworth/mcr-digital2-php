@@ -45,4 +45,21 @@ class FirebaseRealtimeDb
         }
         $this->databaseBasePath = $databaseBasePath;
     }
+
+    public function getMessagesSinceLogin()
+    {
+        $response = $this->firebaseClient->get($this->databaseBasePath . '/messages');
+
+        if(!is_null($response)) {
+            return json_decode($response, true);
+        }
+    }
+
+    public function writeMessage($username, $content)
+    {
+        //$timestamp = new date("Y-m-d H:i:s");
+
+        $message = $this->firebaseClient->set($this->databaseBasePath . '/messages/' . $username, $content);
+
+    }
 }
