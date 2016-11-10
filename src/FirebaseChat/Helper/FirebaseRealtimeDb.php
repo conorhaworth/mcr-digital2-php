@@ -57,9 +57,15 @@ class FirebaseRealtimeDb
 
     public function writeMessage($username, $content)
     {
-        //$timestamp = new date("Y-m-d H:i:s");
+        $timestamp = new \DateTime();
 
-        $message = $this->firebaseClient->set($this->databaseBasePath . '/messages/' . $username, $content);
+        if(!is_null($content) && !is_null($username)) {
+            $response = $this->firebaseClient->push($this->databaseBasePath . '/messages/', array("content" => $content,
+                "timestamp" => $timestamp->format('Y-m-d\TH:i:s'),
+                "username" => $username
+            ));
+        }
+
 
     }
 }

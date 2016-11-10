@@ -32,14 +32,14 @@ class DefaultController extends FOSRestController
     }
 
     /**
-     * @Rest\Post("/messages/{username}/{content}")
+     * @Rest\Post("/messages/{username}")
      */
     public function postMessageAction(Request $request)
     {
         $firebaseService = $this->get('firebase_chat.fbrealtimedb');
 
         $username = $request->get('username');
-        $content = $request->get('content');
+        $content = $request->request->get('content');
 
         $message = $firebaseService->writeMessage($username,$content);
         $view = $this->view($message, Response::HTTP_INTERNAL_SERVER_ERROR);
