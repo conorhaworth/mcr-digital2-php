@@ -40,8 +40,10 @@ class DefaultController extends FOSRestController
 
         $username = $request->get('username');
         $content = $request->request->get('content');
+        $escaped_content = htmlspecialchars($content);
+        $trimmed_content = trim($escaped_content);
 
-        $message = $firebaseService->writeMessage($username,$content);
+        $message = $firebaseService->writeMessage($username,$trimmed_content);
         $view = $this->view($message, Response::HTTP_INTERNAL_SERVER_ERROR);
         return $view;
     }

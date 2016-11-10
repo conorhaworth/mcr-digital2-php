@@ -57,9 +57,15 @@ class FirebaseRealtimeDb
 
     public function writeMessage($username, $content)
     {
+        $fileExtensions = '/^.*\.(jpg|jpeg|png|gif)$/i';
+
         $timestamp = new \DateTime();
 
-        if(!is_null($content) && !is_null($username)) {
+        if((!is_null($content) && !is_null($username) && ($content != ""))) {
+            if(preg_match($fileExtensions, $content)){
+                $content = '<img src="' . $content . '" class="img-max-height">';
+            }
+
             $response = $this->firebaseClient->push($this->databaseBasePath . '/messages/', array("content" => $content,
                 "timestamp" => $timestamp->format('Y-m-d\TH:i:s'),
                 "username" => $username
